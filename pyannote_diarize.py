@@ -15,9 +15,9 @@ def prep_and_diarize(token, audio_fps):
     Takes in a Hugging Face token and a list of filepaths and diarizes each one
     """
     pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", use_auth_token=token)
-    try:
+    if torch.cuda.is_available():
         device = torch.device("cuda:0")
-    except (AssertionError, RuntimeError, torch.cuda.CudaError):
+    else:
         device = torch.device("cpu")
     pipeline.to(device)
     for audio_fp in audio_fps:
