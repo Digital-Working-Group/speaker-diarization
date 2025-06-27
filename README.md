@@ -6,6 +6,7 @@ This repo evalutates the [pyannote-audio](https://github.com/pyannote/pyannote-a
 |---|
 | [Installation and Setup](#installation-and-setup)|
 | [Usage Example](#usage-example) |
+| [Calculate Performance Metrics](#calculate-performance-metrics) |
 | [Citations](#citations) |
 
 ## Installation and Setup
@@ -16,8 +17,7 @@ If you are not already logged into the Hugging Face CLI from your machine, you w
 2. Create a new token.
 3. Select the token type **Read**, enter a token name, and then create the token.
 4. Copy the token into a text file.
-5. Create a new file called `scripts/pii-masking-300k/read_token.py` and copy the contents of `scripts/pii-masking-300k/read_token_template.py` into it.
-6. Copy them contents of [templates/read_token_template.py](templates/read_token_template.py) into a new file `read_token.py`.
+5. Copy them contents of [templates/read_token_template.py](templates/read_token_template.py) into a new file `read_token.py`.
 6. Edit the `token_loc` variable in the `read_token.py` script to point to the text file holding your token.
 
 ### Without Docker
@@ -95,6 +95,35 @@ The CSV file summarizes the information found in the Rich Transcription Time Mar
 | turn_end | Timestamp of the end of the speaker turn. |
 | turn_duration | Length of the speaker turn. |
 | speaker_name | Assigned speaker name. |
+
+## Calculate Performance Metrics
+If you are not already logged into the Hugging Face CLI from your machine, you will need to provide a user token. See the steps described in the [setup above](#hugging-face-setup)
+
+For more help, please see the official documentation [user tokens](https://huggingface.co/docs/hub/en/security-tokens) or the [Hugging Face CLI](https://huggingface.co/docs/huggingface_hub/en/guides/cli).
+
+If you are using Docker, you will need to mount the file containing the token. By default, the recommended docker run commands will mount your current working directory, which may include your token file. If not, you need to mount the folder or the specific file that has the token file `docker run -v path_to_token_dir:/entry/some_dir`. Update the path in `read_token.py` and re-run the container to mount:
+
+```sh
+./run_docker.sh
+```
+
+or:
+
+```sh
+docker run -v $(pwd):/scripts -it --rm --gpus all --name pyannote-diarize-ctr pyannote-diarize bash
+```
+
+To evaluate the diarization performance, run the commands below in the root of the repo (python3 may be needed instead of python, depending on the environment):
+
+```sh
+cd scripts/speaker_diarization
+python export_voxconverse.py
+python speaker_diarization_evaluate.py
+```
+The default settings in [speaker_diarization_evaluate.py](scripts/speaker_diarization/speaker_diarization_evaluate.py) will use the evaluate the 2 first files from the VoxConverse dataset and write the results to the `scripts/speaker_diarization/results` folder. See `PYANNOTE.json` for a summary of each calculated error metric and `PYANNOTE.log` for a more detailed breakdown by file and error metric. The number of files can be changed by editing the `num_samples` variable in the `dataset_kwargs`. Two types of error are calculated: DiarizationErrorRate and JaccardErrorRate.
+
+For more information on performance metrics, please see [Pyannote's metrics documentation](https://pyannote.github.io/pyannote-metrics/reference.html).
+
 
 ## Citations
 ```bibtex
