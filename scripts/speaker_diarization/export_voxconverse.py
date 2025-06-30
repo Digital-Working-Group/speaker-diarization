@@ -1,8 +1,8 @@
 """export_voxconverse.py"""
 import subprocess
-import requests
 import zipfile
 from pathlib import Path
+import requests
 
 
 def get_voxconverse_data(dev=True, extract_dir=Path(__file__).parent / "voxconverse_data"):
@@ -17,14 +17,14 @@ def get_voxconverse_data(dev=True, extract_dir=Path(__file__).parent / "voxconve
 
     if not zip_path.exists():
         print("Downloading dataset...")
-        response = requests.get(url)
+        response = requests.get(url, timeout=(10, 10))
         zip_path.write_bytes(response.content)
 
     wav_dir = extract_dir / ("dev" if dev else "test")
     if not wav_dir.exists():
         print("Extracting zip...")
-        with zipfile.ZipFile(zip_path, 'r') as z:
-            z.extractall(wav_dir)
+        with zipfile.ZipFile(zip_path, 'r') as zfile:
+            zfile.extractall(wav_dir)
 
 def get_voxconverse_labels(dst=Path(__file__).parent / "voxconverse_labels"):
     """Clone VoxConverse repo to get labels"""

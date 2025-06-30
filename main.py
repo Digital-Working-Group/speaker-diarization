@@ -10,8 +10,8 @@ def main():
     Runs speaker diarization using Pyannote.audio speaker diar 3.1
     """
     token = read_token()
-    sample_audio_fps = ['input_audio/short_wav/first_ten_Sample_HV_Clip.wav', 
-                        'input_audio/short_wav/Sample_HV_Clip.wav']
+    sample_audio_fps = ['sample_files/short_wav/first_ten_Sample_HV_Clip.wav', 
+                        'sample_files/short_wav/Sample_HV_Clip.wav']
     prep_and_diarize(token, sample_audio_fps)
 
 

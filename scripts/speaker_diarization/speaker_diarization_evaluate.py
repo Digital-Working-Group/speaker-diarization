@@ -1,16 +1,11 @@
 """speaker_diarization_evaluate.py"""
 import json
-
-from pyannote.metrics.diarization import (
-    DiarizationErrorRate,
-    JaccardErrorRate,
-)
+from pyannote.metrics.diarization import DiarizationErrorRate, JaccardErrorRate
 from tqdm import tqdm
-
 from dataset import *
 from engine import *
 from util import load_rttm, rttm_to_annotation
-from read_token import read_hf_token
+from read_token import read_token
 
 DEFAULT_CACHE_FOLDER = os.path.join(os.path.dirname(__file__), "cache")
 RESULTS_FOLDER = os.path.join(os.path.dirname(__file__), "results")
@@ -71,16 +66,15 @@ def main() -> None:
         "dataset": Datasets.VOX_CONVERSE,
         "data_folder": "voxconverse_data/dev/audio",
         "label_folder":"voxconverse_labels/dev",
-        "num_samples": 2
+        "num_samples": 5
 
     }
 
     engine_kwargs = {
         "engine": Engines.PYANNOTE,
-        "auth_token": read_hf_token
+        "auth_token": read_token
     }
 
-    # could change this 
     process_kwargs = {
         "verbose": "True"
     }

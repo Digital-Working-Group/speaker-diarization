@@ -2,7 +2,6 @@
 pyannote_diarize.py
 generate pyannote diarization
 """
-import json
 import torch
 import torchaudio
 import pandas as pd
@@ -55,7 +54,7 @@ def rttm_to_csv(rttm_in, csv_out):
     """
     keep_headers = ['turn_onset', 'turn_end', 'turn_duration', 'speaker_name']
     to_write = []
-    with open(rttm_in, 'r') as infile:
+    with open(rttm_in, "r", encoding="utf-8") as infile:
         for line in infile.readlines():
             row = read_rttm_line(line)
             row['turn_end'] = round(float(row['turn_onset']) + float(row['turn_duration']), 3)
