@@ -127,7 +127,7 @@ cd scripts/speaker_diarization
 python export_voxconverse.py
 python speaker_diarization_evaluate.py
 ```
-The default settings in [speaker_diarization_evaluate.py](scripts/speaker_diarization/speaker_diarization_evaluate.py) will evaluate the first 10 files from the [VoxConverse v0.3 dev dataset](https://github.com/joonson/voxconverse/tree/master/dev) and write the results to the `scripts/speaker_diarization/results` folder. See `PYANNOTE.json` for a summary of each calculated error metric and `PYANNOTE.log` for a more detailed breakdown by file and error metric. The number of files can be changed by editing the `num_samples` variable in the `dataset_kwargs`. Two types of error are calculated: 
+The default settings in [speaker_diarization_evaluate.py](scripts/speaker_diarization/speaker_diarization_evaluate.py) will evaluate the first file from the [VoxConverse v0.3 dev dataset](https://github.com/joonson/voxconverse/tree/master/dev) and write the results to the `scripts/speaker_diarization/results` folder. See `PYANNOTE.json` for a summary of each calculated error metric and `PYANNOTE.log` for a more detailed breakdown by file and error metric. The number of files can be changed by editing the `num_samples` variable in the `dataset_kwargs`. Two types of error are calculated: 
 - [DiarizationErrorRate](https://pyannote.github.io/pyannote-metrics/_modules/pyannote/metrics/diarization.html#DiarizationErrorRate)
 - [JaccardErrorRate](https://pyannote.github.io/pyannote-metrics/_modules/pyannote/metrics/diarization.html#JaccardErrorRate)
 
