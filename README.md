@@ -17,7 +17,7 @@ If you are not already logged into the Hugging Face CLI from your machine, you w
 2. Create a new token.
 3. Select the token type **Read**, enter a token name, and then create the token.
 4. Copy the token into a text file.
-5. Copy them contents of [templates/read_token_template.py](templates/read_token_template.py) into a new file `read_token.py`.
+5. Copy them contents of [templates/read_token_template.py](templates/read_token_template.py) into a new file `scripts/speaker_diarization/read_token.py`.
 6. Edit the `token_loc` variable in the `read_token.py` script to point to the text file holding your token.
 
 ### Without Docker
@@ -58,7 +58,7 @@ See [main.main()](main.py) for usage examples. The `prep_and_diarize()` function
 
 ```python
 from pyannote_diarize import prep_and_diarize
-from read_token import read_token
+from scripts.speaker_diarization.read_token import read_token
 audio_list = [YOUR LIST]
 prep_and_diarize(read_token(), audio_list)
 ```

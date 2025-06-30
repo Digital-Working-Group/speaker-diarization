@@ -66,7 +66,7 @@ def main() -> None:
         "dataset": Datasets.VOX_CONVERSE,
         "data_folder": "voxconverse_data/dev/audio",
         "label_folder":"voxconverse_labels/dev",
-        "num_samples": 5
+        "num_samples": 10
 
     }
 

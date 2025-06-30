@@ -7,7 +7,7 @@ import torchaudio
 import pandas as pd
 from pyannote.audio import Pipeline
 from pyannote.audio.pipelines.utils.hook import ProgressHook
-from read_token import read_token
+from scripts.speaker_diarization.read_token import read_token
 
 def prep_and_diarize(token, audio_fps):
     """
