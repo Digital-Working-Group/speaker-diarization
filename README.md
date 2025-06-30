@@ -25,11 +25,11 @@ Check your Python version:
 ```sh
 python --version
 ```
-Note that one of the packages, [sentencepiece](https://github.com/google/sentencepiece), does not support Python3.13.1 yet. If you See [Anaconda](https://www.anaconda.com/download/success) as an option to switch between Python versions.
+Note that one of the packages, [sentencepiece](https://github.com/google/sentencepiece), does not support Python 3.13.1 yet. See [Anaconda](https://www.anaconda.com/download/success) as an option to switch between Python versions.
 
 Install requirements:
 ```sh
-pip install -r python3-13-1_requirements.txt
+pip install -r requirements.txt
 ```
 
 ## With Docker
@@ -63,20 +63,19 @@ audio_list = [YOUR LIST]
 prep_and_diarize(read_token(), audio_list)
 ```
 
-
 Or to run our preset example, you could run:
 ```python
 from main import main
 main()
 ```
 
-This would output four files: a CSV continaing and a RTTM file containing for each of the sample audio input files.
+This would output four files: a CSV continaing speaker turns with timestamps and a RTTM file for each of the sample audio input files.
 
 ### Sample Input and Output Files
 The sample hierarchy shows files created by running `main()` using Docker. Each of the input audio files results in a CSV and RTTM file with the same base name.
 
 ```
-input_audio
+sample_files
 ├── short_wav
 │   ├── first_ten_Sample_HV_Clip.csv
 │   ├── first_ten_Sample_HV_Clip.rttm
@@ -113,16 +112,18 @@ or:
 docker run -v $(pwd):/scripts -it --rm --gpus all --name pyannote-diarize-ctr pyannote-diarize bash
 ```
 
-To evaluate the diarization performance, run the commands below in the root of the repo (python3 may be needed instead of python, depending on the environment):
+This script uses the [VoxConverse v0.3 dataset](https://github.com/joonson/voxconverse), which contains a collection of multi-speaker audio .wav files and labeled RRTM files for comparision. To evaluate the diarization performance, run the commands below in the root of the repo (python3 may be needed instead of python, depending on the environment):
 
 ```sh
 cd scripts/speaker_diarization
 python export_voxconverse.py
 python speaker_diarization_evaluate.py
 ```
-The default settings in [speaker_diarization_evaluate.py](scripts/speaker_diarization/speaker_diarization_evaluate.py) will use the evaluate the 2 first files from the VoxConverse dataset and write the results to the `scripts/speaker_diarization/results` folder. See `PYANNOTE.json` for a summary of each calculated error metric and `PYANNOTE.log` for a more detailed breakdown by file and error metric. The number of files can be changed by editing the `num_samples` variable in the `dataset_kwargs`. Two types of error are calculated: DiarizationErrorRate and JaccardErrorRate.
+The default settings in [speaker_diarization_evaluate.py](scripts/speaker_diarization/speaker_diarization_evaluate.py) will evaluate the first 10 files from the [VoxConverse v0.3 dev dataset](https://github.com/joonson/voxconverse/tree/master/dev) and write the results to the `scripts/speaker_diarization/results` folder. See `PYANNOTE.json` for a summary of each calculated error metric and `PYANNOTE.log` for a more detailed breakdown by file and error metric. The number of files can be changed by editing the `num_samples` variable in the `dataset_kwargs`. Two types of error are calculated: 
+- [DiarizationErrorRate](https://pyannote.github.io/pyannote-metrics/_modules/pyannote/metrics/diarization.html#DiarizationErrorRate)
+- [JaccardErrorRate](https://pyannote.github.io/pyannote-metrics/_modules/pyannote/metrics/diarization.html#JaccardErrorRate)
 
-For more information on performance metrics, please see [Pyannote's metrics documentation](https://pyannote.github.io/pyannote-metrics/reference.html).
+For more information on performance metrics with Pyannote, please see [Pyannote's metrics documentation](https://pyannote.github.io/pyannote-metrics/reference.html).
 
 
 ## Citations
@@ -138,5 +139,11 @@ For more information on performance metrics, please see [Pyannote's metrics docu
   title={{pyannote.audio 2.1 speaker diarization pipeline: principle, benchmark, and recipe}},
   year=2023,
   booktitle={Proc. INTERSPEECH 2023},
+}
+@article{chung2020spot,
+  title={Spot the conversation: speaker diarisation in the wild},
+  author={Chung, Joon Son and Huh, Jaesung and Nagrani, Arsha and Afouras, Triantafyllos and Zisserman, Andrew},
+  booktitle={Interspeech},
+  year={2020}
 }
 ```
