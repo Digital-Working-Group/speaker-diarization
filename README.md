@@ -1,6 +1,6 @@
 # Speaker Diarization
 
-This repo evalutates the [pyannote-audio](https://github.com/pyannote/pyannote-audio) diarization tool on an audio file.
+This repository evaluates the [pyannote-audio](https://github.com/pyannote/pyannote-audio) diarization tool on an audio file.
 
 | Table of Contents |
 |---|
@@ -11,7 +11,7 @@ This repo evalutates the [pyannote-audio](https://github.com/pyannote/pyannote-a
 
 ## Installation and Setup
 
-###  Hugging Face Setup
+### Hugging Face Setup
 If you are not already logged into the Hugging Face CLI from your machine, you will need to provide a user token. To create and access your user token, follow the steps below:
 1. Go to [Hugging Face's user token page](https://huggingface.co/settings/tokens).
 2. Create a new token.
@@ -112,7 +112,7 @@ or:
 docker run -v $(pwd):/scripts -it --rm --gpus all --name pyannote-diarize-ctr pyannote-diarize bash
 ```
 
-This script uses the [VoxConverse v0.3 dataset](https://github.com/joonson/voxconverse), which contains a collection of multi-speaker audio .wav files and labeled RRTM files for comparision. To evaluate the diarization performance, run the commands below in the root of the repo (python3 may be needed instead of python, depending on the environment):
+This script uses the [VoxConverse v0.3 dataset](https://github.com/joonson/voxconverse), which contains a collection of multi-speaker audio .wav files and labeled RTTM files for comparision. To evaluate the diarization performance, run the commands below in the root of the repo (python3 may be needed instead of python, depending on the environment):
 
 ```sh
 cd scripts/speaker_diarization
@@ -123,7 +123,7 @@ The default settings in [speaker_diarization_evaluate.py](scripts/speaker_diariz
 - [DiarizationErrorRate](https://pyannote.github.io/pyannote-metrics/_modules/pyannote/metrics/diarization.html#DiarizationErrorRate)
 - [JaccardErrorRate](https://pyannote.github.io/pyannote-metrics/_modules/pyannote/metrics/diarization.html#JaccardErrorRate)
 
-For more information on performance metrics with Pyannote, please see [Pyannote's metrics documentation](https://pyannote.github.io/pyannote-metrics/reference.html).
+For more information on performance metrics with pyannote, please see [pyannote's metrics documentation](https://pyannote.github.io/pyannote-metrics/reference.html).
 
 
 ## Citations

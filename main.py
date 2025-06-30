@@ -14,6 +14,5 @@ def main():
                         'sample_files/short_wav/Sample_HV_Clip.wav']
     prep_and_diarize(token, sample_audio_fps)
 
-
 if __name__ == '__main__':
     main()

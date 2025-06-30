@@ -6,7 +6,7 @@ import requests
 
 
 def get_voxconverse_data(dev=True, extract_dir=Path(__file__).parent / "voxconverse_data"):
-    """Load spearker-diarization dataset from VoxConverse v0.3"""
+    """Load speaker-diarization dataset from VoxConverse v0.3"""
     extract_dir.mkdir(parents=True, exist_ok=True)
     url = (
         "https://www.robots.ox.ac.uk/~vgg/data/voxconverse/data/voxconverse_dev_wav.zip"
