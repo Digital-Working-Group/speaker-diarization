@@ -9,10 +9,11 @@ from pyannote.audio import Pipeline
 from pyannote.audio.pipelines.utils.hook import ProgressHook
 from scripts.speaker_diarization.read_token import read_token
 
-def prep_and_diarize(token, audio_fps):
+def prep_and_diarize(token, audio_fps, **kwargs):
     """
     Takes in a Hugging Face token and a list of filepaths and diarizes each one
     """
+    kwargs['num_speakers'] = kwargs.get('num_speakers', 2)
     pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", use_auth_token=token)
     if torch.cuda.is_available():
         device = torch.device("cuda:0")
@@ -22,7 +23,7 @@ def prep_and_diarize(token, audio_fps):
     for audio_fp in audio_fps:
         rttm_out = audio_fp.replace('.wav', '.rttm')
         csv_out = rttm_out.replace('.rttm', '.csv')
-        diarize_file(pipeline, audio_fp, rttm_out, csv_out)
+        diarize_file(pipeline, audio_fp, rttm_out, csv_out, **kwargs)
 
 def read_rttm_line(line):
     """
@@ -63,7 +64,7 @@ def rttm_to_csv(rttm_in, csv_out):
     pd.DataFrame(to_write).to_csv(csv_out, index=False)
     print(csv_out)
 
-def diarize_file(pipeline, audio_fp, rttm_out, csv_out):
+def diarize_file(pipeline, audio_fp, rttm_out, csv_out, **kwargs):
     """
     diarize one file
     """
@@ -71,7 +72,7 @@ def diarize_file(pipeline, audio_fp, rttm_out, csv_out):
     waveform, sample_rate = torchaudio.load(audio_fp)
     with ProgressHook() as hook:
         diarization = pipeline({'waveform': waveform, 'sample_rate': sample_rate}, hook=hook,
-            num_speakers=2)
+            **kwargs)
         with open(rttm_out, 'w') as outfile:
             diarization.write_rttm(outfile)
         print(rttm_out)

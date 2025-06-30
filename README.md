@@ -56,11 +56,19 @@ Please see Docker's documentation for more information ([docker build](https://d
 ## Usage Example
 See [main.main()](main.py) for usage examples. The `prep_and_diarize()` function takes in a Hugging Face token and a list of audio filepaths to diarize. For each file passed into `prep_and_diarize()`, there will be a resulting RTTM file and CSV.
 
+# Arguments
+The `pyannote_diarize.prep_and_diarize()`  function takes in a Hugging Face token, a list of audio files, and a set of keyword arguments. The documentation of the full set of keyword arguments can be found [here](https://github.com/pyannote/pyannote-audio/blob/main/pyannote/audio/pipelines/speaker_diarization.py#L427).
+
+| Keyword Argument | Type | Description | Default Value |
+|---|---|---|---|
+| num_speakers | 2 | The number of speakers to diarize the file by. | 2 |
+
 ```python
 from pyannote_diarize import prep_and_diarize
 from scripts.speaker_diarization.read_token import read_token
 audio_list = [YOUR LIST]
-prep_and_diarize(read_token(), audio_list)
+kwargs = {'num_speakers': 2}
+prep_and_diarize(read_token(), audio_list, **kwargs)
 ```
 
 Or to run our preset example, you could run:
@@ -69,7 +77,7 @@ from main import main
 main()
 ```
 
-This would output four files: a CSV continaing speaker turns with timestamps and a RTTM file for each of the sample audio input files.
+This would output four files: a CSV containing speaker turns with timestamps and a RTTM file for each of the sample audio input files.
 
 ### Sample Input and Output Files
 The sample hierarchy shows files created by running `main()` using Docker. Each of the input audio files results in a CSV and RTTM file with the same base name.
