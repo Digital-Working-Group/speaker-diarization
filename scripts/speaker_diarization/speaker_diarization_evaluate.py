@@ -17,25 +17,18 @@ def _process_accuracy(engine: Engine, dataset: Dataset, **kwargs) -> None:
     metric_jer = JaccardErrorRate(detailed=True, skip_overlap=True)
     metrics = [metric_der, metric_jer]
 
-    cache_folder = os.path.join(DEFAULT_CACHE_FOLDER, str(dataset), str(engine))
-    print(f"Cache folder: {cache_folder}")
-    os.makedirs(cache_folder, exist_ok=True)
     os.makedirs(os.path.join(RESULTS_FOLDER, str(dataset)), exist_ok=True)
     try:
         for index in tqdm(range(dataset.size)):
             audio_path, audio_length, ground_truth = dataset.get(index)
             if verbose:
                 print(f"Processing {audio_path}...")
+            hypothesis = engine.diarization(audio_path)
 
-            cache_path = os.path.join(cache_folder, f"{os.path.basename(audio_path)}_cached.rttm")
+            hypothesis_path = str(audio_path).replace('.wav', '_pyannote.rttm')
 
-            if os.path.exists(cache_path):
-                hypothesis = rttm_to_annotation(load_rttm(cache_path))
-            else:
-                hypothesis = engine.diarization(audio_path)
-
-                with open(cache_path, "w") as f:
-                    f.write(hypothesis.to_rttm())
+            with open(hypothesis_path, "w") as f:
+                f.write(hypothesis.to_rttm())
 
             for metric in metrics:
                 print("GT segments:", list(ground_truth.itersegments()))
@@ -64,10 +57,7 @@ def main() -> None:
 
     dataset_kwargs = {
         "dataset": Datasets.VOX_CONVERSE,
-        "data_folder": "voxconverse_data/dev/audio",
-        "label_folder":"voxconverse_labels/dev",
-        "num_samples": 1
-
+        "data_folder": "hf_voxconverse_data"
     }
 
     engine_kwargs = {

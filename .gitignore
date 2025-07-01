@@ -7,7 +7,7 @@ __pycache__/
 read_token.py
 
 ## Pylint
-pylincrc
+pylintrc
 
 ## VoxConverse Data
 voxconverse_data/
@@ -16,3 +16,6 @@ voxconverse_labels/
 ## Performance Metrics Results
 cache/
 results/
+
+## venv
+.venv

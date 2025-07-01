@@ -2,6 +2,7 @@ import glob
 import os.path
 from enum import Enum
 from typing import *
+from pathlib import Path
 
 from pyannote.core import Annotation
 
@@ -46,17 +47,28 @@ class Dataset:
 
 
 class VoxConverse(Dataset):
-    def __init__(self, data_folder: str, label_folder: str, **kwargs: Any) -> None:
+    def __init__(self, data_folder: str, **kwargs: Any) -> None:
         self._samples = list()
-        files = list(glob.iglob(os.path.join(data_folder, "*.wav")))
-        num_samples = kwargs.get('num_samples', len(files))
-        for file in files[0:num_samples]:
-            name = os.path.basename(file)
-            label_path = os.path.join(label_folder, name.replace(".wav", ".rttm"))
-            if not os.path.exists(label_path):
-                raise ValueError(f"cannot find label file `{label_path}`")
-            audio_length = get_audio_length(file)
-            self._samples.append((file, label_path, audio_length))
+        data_folder_path = Path(data_folder).resolve()
+        for folder in data_folder_path.iterdir():
+            if not folder.is_dir():
+                continue
+
+            wav_file = None
+            audio_length = None
+            rttm_file = None
+
+            for item in folder.iterdir():
+                if item.suffix == ".wav":
+                    if wav_file is not None:
+                        raise ValueError(f"Multiple .wav files in {folder}")
+                    wav_file = item
+                    audio_length = get_audio_length(wav_file)
+                elif item.suffix == ".rttm":
+                    if rttm_file is not None:
+                        raise ValueError(f"Multiple .rttm files in {folder}")
+                    rttm_file = item 
+            self._samples.append((wav_file, rttm_file, audio_length))
 
     @property
     def size(self) -> int:

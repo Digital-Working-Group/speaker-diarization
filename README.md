@@ -120,14 +120,14 @@ or:
 docker run -v $(pwd):/scripts -it --rm --gpus all --name pyannote-diarize-ctr pyannote-diarize bash
 ```
 
-This script uses the [VoxConverse v0.3 dataset](https://github.com/joonson/voxconverse), which contains a collection of multi-speaker audio .wav files and labeled RTTM files for comparision. To evaluate the diarization performance, run the commands below in the root of the repo (python3 may be needed instead of python, depending on the environment):
+This script uses the [VoxConverse v0.3 dataset](https://github.com/joonson/voxconverse) via [Hugging Face](https://huggingface.co/datasets/diarizers-community/voxconverse), which contains a collection of multi-speaker audio .wav files and labeled RTTM files for comparison. To evaluate the diarization performance, run the commands below in the root of the repo (python3 may be needed instead of python, depending on the environment):
 
 ```sh
 cd scripts/speaker_diarization
 python export_voxconverse.py
 python speaker_diarization_evaluate.py
 ```
-The default settings in [speaker_diarization_evaluate.py](scripts/speaker_diarization/speaker_diarization_evaluate.py) will evaluate the first file from the [VoxConverse v0.3 dev dataset](https://github.com/joonson/voxconverse/tree/master/dev) and write the results to the `scripts/speaker_diarization/results` folder. See `PYANNOTE.json` for a summary of each calculated error metric and `PYANNOTE.log` for a more detailed breakdown by file and error metric. The number of files can be changed by editing the `num_samples` variable in the `dataset_kwargs`. Two types of error are calculated: 
+The default settings in [speaker_diarization_evaluate.py](scripts/speaker_diarization/speaker_diarization_evaluate.py) will evaluate the first 10 files from the [VoxConverse v0.3 dev dataset](https://github.com/joonson/voxconverse/tree/master/dev) and write the results to the `scripts/speaker_diarization/results` folder. See `PYANNOTE.json` for a summary of each calculated error metric and `PYANNOTE.log` for a more detailed breakdown by file and error metric. The number of files can be changed by passing in a different `set_size` argument to  `export_voxconverse.load_huggingface_dataset()`. Two types of error are calculated: 
 - [DiarizationErrorRate](https://pyannote.github.io/pyannote-metrics/_modules/pyannote/metrics/diarization.html#DiarizationErrorRate)
 - [JaccardErrorRate](https://pyannote.github.io/pyannote-metrics/_modules/pyannote/metrics/diarization.html#JaccardErrorRate)
 

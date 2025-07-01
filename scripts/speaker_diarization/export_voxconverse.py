@@ -1,47 +1,46 @@
-"""export_voxconverse.py"""
-import subprocess
-import zipfile
-from pathlib import Path
-import requests
+"""export_hf.py"""
+import os
+from itertools import islice
+from datasets import load_dataset
+import soundfile as sf
+from read_token import read_token
 
+def write_rttm(data, outpath, file_id):
+    """
+    Write an RTTM file from the diarization data dictionary
+    """
+    rttm_out = outpath.replace('.wav', '.rttm')
+    with open(rttm_out, 'w', encoding="utf-8") as f:
+        for start, end, speaker in zip(data['timestamps_start'],
+                                       data['timestamps_end'],
+                                       data['speakers']):
+            duration = end - start
+            line = f"SPEAKER {file_id} 1 {start:.3f} {duration:.3f} <NA> <NA> {speaker} <NA> <NA>\n"
+            f.write(line)
 
-def get_voxconverse_data(dev=True, extract_dir=Path(__file__).parent / "voxconverse_data"):
-    """Load speaker-diarization dataset from VoxConverse v0.3"""
-    extract_dir.mkdir(parents=True, exist_ok=True)
-    url = (
-        "https://www.robots.ox.ac.uk/~vgg/data/voxconverse/data/voxconverse_dev_wav.zip"
-        if dev else
-        "https://www.robots.ox.ac.uk/~vgg/data/voxconverse/data/voxconverse_test_wav.zip"
-    )
-    zip_path = extract_dir / ("dev.zip" if dev else "test.zip")
+def load_hugging_face_dataset(set_size=10):
+    """Load VoxConverse dataset from hugging face"""
+    print("Loading VoxConverse dataset...")
+    try:
+        dataset = load_dataset("diarizers-community/voxconverse", split="dev", streaming=True)
+    except FileNotFoundError:
+        token = read_token()
+        dataset = load_dataset("diarizers-community/voxconverse", split="dev",
+                               streaming=True, use_auth_token=token)
+    return list(islice(dataset, set_size))
 
-    if not zip_path.exists():
-        print("Downloading dataset...")
-        response = requests.get(url, timeout=(10, 10))
-        zip_path.write_bytes(response.content)
-
-    wav_dir = extract_dir / ("dev" if dev else "test")
-    if not wav_dir.exists():
-        print("Extracting zip...")
-        with zipfile.ZipFile(zip_path, 'r') as zfile:
-            zfile.extractall(wav_dir)
-
-def get_voxconverse_labels(dst=Path(__file__).parent / "voxconverse_labels"):
-    """Clone VoxConverse repo to get labels"""
-    if isinstance(dst, str):
-        dst = Path(dst)
-    destination = dst.resolve()
-    if destination.exists():
-        print(f"Directory {destination} already exists. Skipping download.")
-        return
-    
-    url = "https://github.com/joonson/voxconverse.git"
-    subprocess.run([
-        "git", "clone", "--depth=1", url, str(destination)
-    ], check=True)
-    print(f"Cloned VoxConverse labels to {destination}")
-
+def export_hf_voxconverse():
+    """Write VoxConverse dataset wav files and rttm ground truth files"""
+    dataset = load_hugging_face_dataset()
+    out_root = "hf_voxconverse_data"
+    for i, sample in enumerate(dataset):
+        audio = sample["audio"]
+        file_id = f"sample_{i}"
+        out_dir = os.path.join(out_root, file_id)
+        os.makedirs(out_dir, exist_ok=True)
+        outpath = os.path.join(out_dir, f"{file_id}.wav")
+        sf.write(outpath, audio["array"], audio["sampling_rate"])
+        write_rttm(sample, outpath, file_id)
 
 if __name__ == "__main__":
-    get_voxconverse_data()
-    get_voxconverse_labels()
+    export_hf_voxconverse()
