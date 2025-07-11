@@ -27,6 +27,7 @@ def load_hugging_face_dataset(set_size=10):
         token = read_token()
         dataset = load_dataset("diarizers-community/voxconverse", split="dev",
                                streaming=True, use_auth_token=token)
+    print("Loaded VoxConverse dataset..")
     return list(islice(dataset, set_size))
 
 def export_hf_voxconverse():
@@ -39,6 +40,7 @@ def export_hf_voxconverse():
         out_dir = os.path.join(out_root, file_id)
         os.makedirs(out_dir, exist_ok=True)
         outpath = os.path.join(out_dir, f"{file_id}.wav")
+        print(f'writing {outpath}')
         sf.write(outpath, audio["array"], audio["sampling_rate"])
         write_rttm(sample, outpath, file_id)
 

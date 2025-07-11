@@ -10,6 +10,7 @@ read_token.py
 pylintrc
 
 ## VoxConverse Data
+hf_voxconverse_data/
 voxconverse_data/
 voxconverse_labels/
 
