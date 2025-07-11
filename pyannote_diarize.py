@@ -77,14 +77,3 @@ def diarize_file(pipeline, audio_fp, rttm_out, csv_out, **kwargs):
             diarization.write_rttm(outfile)
         print(rttm_out)
     rttm_to_csv(rttm_out, csv_out)
-
-def check_params():
-    """
-    check hyperparameters
-    """
-    token = read_token()
-    pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", use_auth_token=token)
-    print(pipeline.parameters(instantiated=True))
-
-if __name__ == '__main__':
-    check_params()
