@@ -137,6 +137,7 @@ The default settings in [speaker_diarization_evaluate.py](scripts/speaker_diariz
 
 For more information on performance metrics with pyannote, please see [pyannote's metrics documentation](https://pyannote.github.io/pyannote-metrics/reference.html).
 
+Another options is to run [jupyter notebook](https://docs.jupyter.org/en/latest/running.html), please see [accuracy_evaluation_example.ipynb](scripts/speaker_diarization/accuracy_evaluation_example.ipynb) for an interactive set of examples.
 
 ## Citations
 ```bibtex
