@@ -53,6 +53,10 @@ docker run -v $(pwd):/scripts -it --rm --gpus all --name $container_name $docker
 
 Please see Docker's documentation for more information ([docker build](https://docs.docker.com/build/), [Dockerfile](https://docs.docker.com/build/concepts/dockerfile/), [docker run](https://docs.docker.com/reference/cli/docker/container/run/)).
 
+## Jupyter Notebook Examples
+
+Please run [jupyter notebook](https://docs.jupyter.org/en/latest/running.html) and see [example_usages.ipynb](example_usages.ipynb) for an interactive set of examples. Also, see the usage example sections below.
+
 ## Usage Example
 See [main.main()](main.py) for usage examples. The `prep_and_diarize()` function takes in a Hugging Face token and a list of audio filepaths to diarize. For each file passed into `prep_and_diarize()`, there will be a resulting RTTM file and CSV.
 
