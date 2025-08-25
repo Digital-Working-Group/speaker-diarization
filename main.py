@@ -11,6 +11,7 @@ def main():
     """
     token = read_token()
     sample_audio_fps = ['sample_files/short_wav/first_ten_Sample_HV_Clip.wav', 
+                        'sample_files/short_wav/first_minute_Sample_HV_Clip.wav',
                         'sample_files/short_wav/Sample_HV_Clip.wav']
     kwargs = {'num_speakers': 2}
     prep_and_diarize(token, sample_audio_fps, **kwargs)
