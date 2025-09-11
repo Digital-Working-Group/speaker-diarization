@@ -16,7 +16,7 @@ voxconverse_labels/
 
 ## Performance Metrics Results
 cache/
-results/
+evaluation_results/
 
 ## venv
 .venv
