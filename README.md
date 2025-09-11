@@ -36,7 +36,9 @@ requirements
    |   |   |-- requirements.txt
    |   |   |-- run_docker.sh
    |   |-- pip-licenses.md
+   |   |-- pip-licenses_cpu.md
    |   |-- requirements.txt
+   |   |-- requirements_cpu.txt
    |   |-- run_docker.sh
    |-- python3-9-6
    |   |-- Dockerfile
@@ -56,13 +58,21 @@ Check your Python version:
 ```sh
 python --version
 ```
-Note that one of the packages, [sentencepiece](https://github.com/google/sentencepiece), does not support Python 3.13.1 yet. See [Anaconda](https://www.anaconda.com/download/success) as an option to switch between Python versions. This repository has been tested with Python 3.9.6 and Python 3.12.11
+Note that one of the packages, [sentencepiece](https://github.com/google/sentencepiece), does not support Python 3.13.1 yet. See [Anaconda](https://www.anaconda.com/download/success) as an option to switch between Python versions. This repository has been tested with Python 3.9.6 and Python 3.12.11.
 
-Requirements for either Python version can be found in the respective requirements subfolders:
+Requirements for either Python version can be found in the respective requirements subfolders.
+
 ```sh
 pip install -r requirements/python3-9-6/requirements.txt ## Python 3.9.6 requirements
 pip install -r requirements/python3-12-11/requirements.txt ## Python 3.12.11 requirements
 ```
+
+There are specific requirements for Python 3.12.11 when utilizing an environment without CUDA/GPU capabilities, due to an issue with nvidia-cufile-cu12.
+
+```sh
+pip install -r requirements/python3-12-11/requirements_cpu.txt ## Python 3.12.11 CPU-only requirements
+```
+
 There are specific requirements for running only the evaluation scripts, see [Calculate Performance Metrics](#calculate-performance-metrics) and [speaker_diarization_evaluate.py](speaker_diarization_evaluate.py).
 
 ```sh
