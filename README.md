@@ -85,17 +85,27 @@ Please run [jupyter notebook](https://docs.jupyter.org/en/latest/running.html) a
 See [main.main()](main.py) for usage examples. The `prep_and_diarize()` function takes in a Hugging Face token and a list of audio filepaths to diarize. For each file passed into `prep_and_diarize()`, there will be a resulting RTTM file and CSV.
 
 ```python
+"""
+main.py
+Provides and example run of the speaker diarization
+"""
+from read_token import read_token
 from pyannote_diarize import prep_and_diarize
-from scripts.speaker_diarization.read_token import read_token
-audio_list = [YOUR LIST]
-kwargs = {'num_speakers': 2}
-prep_and_diarize(read_token(), audio_list, **kwargs)
-```
 
-Or to run our preset example, you could run:
-```python
-from main import main
-main()
+def main():
+    """
+    Runs speaker diarization using Pyannote.audio speaker diar 3.1
+    """
+    token = read_token()
+    sample_audio_fps = ['sample_files/short_wav/first_ten_Sample_HV_Clip.wav', 
+                        'sample_files/short_wav/first_minute_Sample_HV_Clip.wav',
+                        'sample_files/short_wav/Sample_HV_Clip.wav']
+    kwargs = {'num_speakers': 2}
+    prep_and_diarize(token, sample_audio_fps, **kwargs)
+
+if __name__ == '__main__':
+    main()
+
 ```
 
 This would output six files: a CSV containing speaker turns with timestamps and a RTTM file for each of the sample audio input files.
