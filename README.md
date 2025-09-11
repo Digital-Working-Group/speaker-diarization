@@ -6,9 +6,7 @@ This repository evaluates the [pyannote-audio](https://github.com/pyannote/pyann
 |---|
 | [Speaker Diarization: Installation and Setup](#installation-and-setup)|
 | [Speaker Diarization: Usage Example](#usage-example) |
-| [Calculate Performance Metrics](#calculate-performance-metrics) |
-| [Calculate Performance Metrics: Installation and Setup](#installation-and-setup-1) |
-| [Calculate Performance Metrics: Usage Example](#usage-example-1) |
+| [Evaluation: Calculate Performance Metrics](#evaluation:-calculate-performance-metrics) |
 | [Citations](#citations) |
 
 ## Installation and Setup
