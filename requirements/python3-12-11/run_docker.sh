@@ -13,5 +13,5 @@ then
 else
     docker_name="py3-12-11-pyannote-diarize"
 fi
-
-docker run -v $(pwd):/scripts -it --rm --gpus all --name $container_name $docker_name bash
+dir_up=$(realpath "../../")
+docker run -v $dir_up:/scripts -it --rm --gpus all --name $container_name $docker_name bash
