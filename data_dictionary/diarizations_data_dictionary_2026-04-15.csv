@@ -1,0 +1,5 @@
+column	description
+turn_onset	The start of the speaker turn in seconds.
+turn_end	The end of the speaker turn in seconds.
+turn_duration	The duration of the speaker turn (turn_end - turn_onset) in seconds.
+speaker_name	The label of the determined speaker (SPEAKER_00 or SPEAKER_01).
