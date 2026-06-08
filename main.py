@@ -3,7 +3,7 @@ main.py
 Provides and example run of the speaker diarization
 """
 from read_token import read_token
-from pyannote_diarize import prep_and_diarize
+from speaker_diarization import prep_and_diarize
 
 def main():
     """
