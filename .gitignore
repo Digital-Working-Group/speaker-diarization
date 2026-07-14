@@ -3,6 +3,7 @@ __pycache__/
 *.mp3
 *.flac
 *.mp3
+*token.txt
 .DS_Store
 read_token.py
 .ipynb_checkpoints/
@@ -21,3 +22,5 @@ evaluation_results/
 
 ## venv
 .venv
+venv/
+py3-12-venv/
