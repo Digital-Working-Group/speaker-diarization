@@ -6,13 +6,7 @@ import torch
 import torchaudio
 import pandas as pd
 
-_original_load = torch.load
-
-def patched_load(*args, **kwargs):
-    kwargs.setdefault("weights_only", False)
-    return _original_load(*args, **kwargs)
-
-torch.load = patched_load
+torch.serialization.add_safe_globals([torch.torch_version.TorchVersion])
 
 from pyannote.audio import Pipeline
 from pyannote.audio.pipelines.utils.hook import ProgressHook
