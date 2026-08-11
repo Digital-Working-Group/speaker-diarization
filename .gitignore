@@ -21,3 +21,11 @@ evaluation_results/
 
 ## venv
 .venv
+
+## Build artifacts
+*.egg-info/
+dist/
+build/
+
+## Editor
+.vscode/

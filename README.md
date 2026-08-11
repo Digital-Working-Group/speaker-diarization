@@ -7,6 +7,7 @@ This repository evaluates the [pyannote-audio](https://github.com/pyannote/pyann
 | [Speaker Diarization: Installation and Setup](#installation-and-setup)|
 | [Speaker Diarization: Usage Example](#usage-example) |
 | [Evaluation of Speaker Diarization](#Evaluation-of-Speaker-Diarization) |
+| [Contributing](#contributing) |
 | [Citations](#citations) |
 
 ## Installation and Setup
@@ -228,6 +229,18 @@ evaluation_results
 ### Alternative Performance Metric Calculation: VoxConverse
 
 If you wish to run the performance metrics on a larger dataset, you may use any dataset containing ground truth and hypothesis RTTM files. One possibility is to use [VoxConverse v0.3 dataset](https://github.com/joonson/voxconverse) via [Hugging Face](https://huggingface.co/datasets/diarizers-community/voxconverse). 
+
+## Contributing
+This repository handles Hugging Face tokens and participant-derived audio
+data. Before committing, install the pre-commit hooks that check for
+accidentally committed secrets and other sensitive data — see
+[SECURITY.md](SECURITY.md) for setup instructions and details on how the
+checks work:
+
+```sh
+pip install -e ".[dev]"
+pre-commit install
+```
 
 ## Citations
 ```bibtex
