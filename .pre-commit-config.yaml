@@ -1,0 +1,26 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        # Sample audio clips checked in under sample_files/ are up to ~40MB;
+        # this ceiling exists to catch accidental commits of full-length
+        # raw participant recordings, not to block legitimate sample data.
+        args: ["--maxkb=51200"]
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+        exclude: ^\.venv/
+
+  - repo: local
+    hooks:
+      - id: check-sensitive-patterns
+        name: Check for organization-specific sensitive data (e.g. participant IDs)
+        description: Flags org-specific identifiers (e.g. participant IDs) that generic secret scanners don't recognize. See scripts/check_sensitive_patterns.py.
+        entry: python scripts/check_sensitive_patterns.py
+        language: system
+        types: [text]
